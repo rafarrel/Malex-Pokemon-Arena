@@ -1,14 +1,15 @@
 """
     The Battle class runs the battle simulations for the arena.
 """
-from copy import deepcopy
-from random import randint
+from copy   import deepcopy
+from math   import fabs
+from random import gauss
 
 
 class Battle:
 
     def __init__(self, challenger, defender):
-        self.SIM_CONST  = 5
+        self.SD_DIV     = 3
         self.challenger = deepcopy(challenger)
         self.defender   = deepcopy(defender)
         self.c_stats    = None
@@ -23,7 +24,9 @@ class Battle:
         """
         pass
 
-    def simulate(self):
+    #-------------------------------------------------------------------------
+
+    def add_variability(self):
         """
             Add variability to each trainer's team stat groups to
             simulate the battle.
@@ -32,15 +35,26 @@ class Battle:
         self.d_stats = self.defender.get_team_stat_groups()
 
         for key in self.c_stats:
-            self.c_stats[key] *= (randint(1, 5) / self.SIM_CONST)
-            self.d_stats[key] *= (randint(1, 5) / self.SIM_CONST)
+            self.c_stats[key] = self.generate_variability(self.c_stats, key)
+            self.d_stats[key] = self.generate_variability(self.d_stats, key)
 
-    def compare_stats(self):
+    def generate_variability(self, stats, key):
         """
-            Compare the simulated stat groups of each trainer to determine
-            the winner of the battle.
+            Generate variability using Gaussian Distribution.
         """
-        c_points, d_points = self.add_points()
+        mean = stats[key]
+        sd   = fabs(mean) / self.SD_DIV
+
+        return fabs(gauss(mean, sd))
+
+    #-------------------------------------------------------------------------
+
+    def determine_winner(self):
+        """
+            Compare the points of each trainer to determine the winner
+            of the battle.
+        """
+        c_points, d_points   = self.compare_stats()
 
         if c_points > d_points:
             self.winner = self.challenger
@@ -49,18 +63,21 @@ class Battle:
             self.winner = self.defender
             self.loser  = self.challenger
 
-    def add_points(self):
+    def compare_stats(self):
         """
-            Add points to trainer with higher simulated stat groups.
+            Compare stats and add points to trainer with higher simulated
+            stat groups.
         """
         c_points = 0
         d_points = 0
 
         for key in self.c_stats:
-            c_points += 1 if self.c_stats[key] > self.d_stats[key] else 0
-            d_points += 1 if self.c_stats[key] < self.d_stats[key] else 0
+            c_points += 1 if self.c_stats[key] >= self.d_stats[key] else 0
+            d_points += 1 if self.c_stats[key] <  self.d_stats[key] else 0
 
         return c_points, d_points
+
+    #-------------------------------------------------------------------------
 
     def determine_mvp(self):
         """

@@ -39,15 +39,13 @@ class TestBattle(unittest.TestCase):
     #------------------------------------------------------------
 
     def test_simulation(self):
-        ## Ensure simulation is randomized and the stats   ##
-        ## change                                          ##
-        pass
+        ## Ensure simulation favors stronger trainer to win  ##
+        ## between 60%-70% of the time                       ##
+        stronger_wins = 0
+        num_battles   = 0
 
-        """
-        # Generate values and run multiple tests for each
-        # to ensure the stats are changing
+        # Generate sample values and run multiple tests for each
         for sample in range(1):
-            changed = False
             ch_phys = randint(1, 200)
             ch_att  = randint(1, 200)
             ch_dfn  = randint(1, 200)
@@ -56,27 +54,18 @@ class TestBattle(unittest.TestCase):
             d_att   = randint(1, 200)
             d_dfn   = randint(1, 200)
 
-            for test in range(2):
+            for test in range(3):
                 challenger  = TestingTrainer(ch_phys, ch_att, ch_dfn)
                 defender    = TestingTrainer(d_phys, d_att, d_dfn)
                 test_battle = Battle(challenger, defender)
 
-                test_battle.simulate()
+                test_battle.add_variability()
                 c_stats     = test_battle.c_stats
                 d_stats     = test_battle.d_stats
 
-                for key in c_stats:
-                    if c_stats[key] > challenger.team_stat_groups[key]:
-                        changed = True
-                    if c_stats[key] < challenger.team_stat_groups[key]:
-                        changed = True
-                    if d_stats[key] > defender.team_stat_groups[key]:
-                        changed = True
-                    if d_stats[key] < defender.team_stat_groups[key]:
-                        changed = True
-
-            self.assertTrue(changed)
-        """
+                print('')
+                print(challenger.team_stat_groups, '|', defender.team_stat_groups)
+                print(c_stats, '|', d_stats)
 
     def test_compare(self):
         ## Ensure comparison gives points to the trainer   ##
