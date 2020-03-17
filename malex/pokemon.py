@@ -1,42 +1,48 @@
 # this program will initialize the pokemon class witg MAX_LEVEL , NAME , LEVEL STAT_GROUPS AND TOTAL_STATS
-
 class Pokemon:
     # init method to set the objects attributes
-    def __init__(self, max_level, name, level, stat_groups, total_stat):
-        self.__max_level = max_level
-        self.__name = name
-        self.__level = level
-        self.__stat_groups = stat_groups
-        self.__total_stat = total_stat
+    def __init__(self, name, level, hp, sp_defense, sp_attack, speed, attack, defense):
+        self.MAX_LEVEL   = 100
+        self.GROUP_TOTAL = 2
+        self.hp          = hp
+        self.sp_defense  = sp_defense
+        self.defense     = defense
+        self.sp_attack   = sp_attack
+        self.speed       = speed
+        self.attack      = attack
+        self.name        = name
+        self.level       = level
+        self.stat_groups = None
+        self.total_stat  = None
 
-    # setters
-    def set_max_level(self, max_level):
-        self.__max_level = max_level
+    def setup(self):
+        self.calculate_stat_groups()
+        self.stat_group_multiplier()
+        self.calculate_total_stat()
 
-    def set_name(self, name):
-        self.__name = name
+    def calculate_stat_groups(self):
+        self.stat_groups['Physical'] = (self.hp + self.speed) / self.GROUP_TOTAL
+        self.stat_groups['Attack']   = (self.attack + self.sp_attack) / self.GROUP_TOTAL
+        self.stat_groups['Defense']  = (self.defense + self.sp_defense) / self.GROUP_TOTAL
 
-    def set_level(self, level):
-        self.__level = level
+    def stat_group_multiplier(self):
+        for key in self.stat_groups:
+            self.stat_groups[key] *= (self.level / self.MAX_LEVEL)
 
-    def set_stat_groups(self, stat_groups):
-        self.__stat_groups = stat_groups
-
-    def set_total_stats(self, total_stats):
-        self.__total_stat = total_stats
+    def calculate_total_stat(self):
+        total_stat = 0
+        for key in self.stat_groups:
+            total_stat += self.stat_groups[key]
 
     # getters
-    def get_max_level(self):
-        return self.__max_level
-
     def get_name(self):
-        return self.__name
+        return self.name
 
     def get_level(self):
-        return self.__level
+        return self.level
 
     def get_stat_groups(self):
-        return self.__stat_groups
+        return self.stat_groups
 
     def get_total_stat(self):
-        return self.__stat_groups
+        return self.total_stat
