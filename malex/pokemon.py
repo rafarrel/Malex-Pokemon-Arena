@@ -12,7 +12,7 @@ class Pokemon:
         self.attack      = attack
         self.name        = name
         self.level       = level
-        self.stat_groups = None
+        self.stat_groups = {}
         self.total_stat  = None
 
     def setup(self):
