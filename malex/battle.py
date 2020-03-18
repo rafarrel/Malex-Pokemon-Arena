@@ -1,5 +1,7 @@
 """
+
     The Battle class runs the battle simulations for the arena.
+
 """
 from copy   import deepcopy
 from math   import fabs
@@ -18,11 +20,18 @@ class Battle:
         self.loser      = None
         self.mvp_name   = None
 
+    #-------------------------------------------------------------------------
+
     def battle(self):
         """
             Run the battle simulation.
         """
-        pass
+        self.add_variability()
+        self.determine_winner()
+        self.determine_mvp()
+        self.display_results()
+
+        return self.get_winner()
 
     #-------------------------------------------------------------------------
 
@@ -54,7 +63,7 @@ class Battle:
             Compare the points of each trainer to determine the winner
             of the battle.
         """
-        c_points, d_points   = self.compare_stats()
+        c_points, d_points = self.compare_stats()
 
         if c_points > d_points:
             self.winner = self.challenger
@@ -89,8 +98,10 @@ class Battle:
         """
             Display the results to the console.
         """
-        print('{} defeated {}! {} was the mvp'.format(
-            self.winner.get_name(), self.loser.get_name(), self.mvp_name)
+        print(
+            '{} defeated {}! {} was the mvp'.format(
+                self.winner.get_name(), self.loser.get_name(), self.mvp_name
+            )
         )
 
     def get_winner(self):

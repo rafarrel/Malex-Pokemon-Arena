@@ -41,31 +41,7 @@ class TestBattle(unittest.TestCase):
     def test_simulation(self):
         ## Ensure simulation favors stronger trainer to win  ##
         ## between 60%-70% of the time                       ##
-        stronger_wins = 0
-        num_battles   = 0
-
-        # Generate sample values and run multiple tests for each
-        for sample in range(1):
-            ch_phys = randint(1, 200)
-            ch_att  = randint(1, 200)
-            ch_dfn  = randint(1, 200)
-
-            d_phys  = randint(1, 200)
-            d_att   = randint(1, 200)
-            d_dfn   = randint(1, 200)
-
-            for test in range(3):
-                challenger  = TestingTrainer(ch_phys, ch_att, ch_dfn)
-                defender    = TestingTrainer(d_phys, d_att, d_dfn)
-                test_battle = Battle(challenger, defender)
-
-                test_battle.add_variability()
-                c_stats     = test_battle.c_stats
-                d_stats     = test_battle.d_stats
-
-                print('')
-                print(challenger.team_stat_groups, '|', defender.team_stat_groups)
-                print(c_stats, '|', d_stats)
+        pass
 
     def test_compare(self):
         ## Ensure comparison gives points to the trainer   ##
