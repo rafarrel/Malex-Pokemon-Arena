@@ -3,14 +3,16 @@
     The arena class runs the arena.
 
 """
-from malex.battle import Battle
 import sys
+from queue        import Queue
+from malex.battle import Battle
 
 
 class Arena:
 
     def __init__(self, name):
         self.MAX_DEFENDERS    = 6
+        self.INFINITE         = 0
         self.name             = name
         self.challenger       = None
         self.defenders        = []
@@ -25,11 +27,6 @@ class Arena:
         for defender in self.defenders:
             self.battle_defender(defender)
 
-            if not self.arena_conquered:
-                break
-
-        self.exit_arena()
-
     #-------------------------------------------------------------------------
 
     def set_challenger(self, challenger):
@@ -42,10 +39,11 @@ class Arena:
         """
             Add trainers to defend the arena.
         """
-        if len(self.defenders) < self.MAX_DEFENDERS:
-            self.defenders.append(defender)
-        else:
-            print('Defender could not be added.')
+        message       = 'Defender could not be added.'
+        num_defenders =  len(self.defenders)
+
+        assert num_defenders < self.MAX_DEFENDERS, message
+        self.defenders.append(defender)
 
     #-------------------------------------------------------------------------
 
@@ -54,11 +52,11 @@ class Arena:
             Initiate a battle between the challenger and the next
             defender in the arena.
         """
-        battle = Battle(self.challenger, self.defenders.pop(defender))
+        battle = Battle(self.challenger, defender)
         winner = battle.battle()
 
         if winner != self.challenger.get_name():
-            self.arena_conquered = False
+            self.exit_arena()
 
     #-------------------------------------------------------------------------
 
@@ -74,10 +72,12 @@ class Arena:
             Display if challenger conquered or was defeated by the
             arena.
         """
-        conquered = ""
-        if self.arena_conquered:
-            conquered = 'conquered'
-        else:
-            conquered = 'did not conquer'
+        print('{} {} the arena.'.format(
+            self.challenger.get_name(), self.determine_results())
+        )
 
-        print('{} {} the arena.'.format(self.challenger.get_name(), self))
+    def determine_results(self):
+        """
+            Determine if challenger conquered the arena or not.
+        """
+        return 'conquered' if self.arena_conquered else 'did not conquer'
