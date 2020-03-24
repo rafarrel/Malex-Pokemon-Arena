@@ -11,7 +11,7 @@ from random import gauss
 class Battle:
 
     def __init__(self, challenger, defender):
-        self.SD_DIV     = 3
+        self.SD_DIV     = 6
         self.challenger = deepcopy(challenger)
         self.defender   = deepcopy(defender)
         self.c_stats    = None

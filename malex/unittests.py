@@ -1,5 +1,3 @@
-from malex.battle import Battle
-from unittest.mock import Mock
 from random import randint
 import unittest
 
@@ -18,30 +16,20 @@ class TestingTrainer:
 
 class TestBattle(unittest.TestCase):
 
-    @classmethod
-    def setUpClass(cls):
-        #print('setUpClass()')
-        pass
-
-    @classmethod
-    def tearDownClass(cls):
-        #print('tearDownClass()')
-        pass
-
-    def setUp(self):
-        #print('setUp()')
-        pass
-
-    def tearDown(self):
-        #print('tearDown()')
-        pass
-
     #------------------------------------------------------------
 
     def test_simulation(self):
         ## Ensure simulation favors stronger trainer to win  ##
         ## between 60%-70% of the time                       ##
         pass
+
+    def test_var_generation(self):
+        ## Ensure simulation generates variability so that   ##
+        ## stronger stat is still higher than lower stat     ##
+        ## between -5 and +5 of its probability of being     ##
+        ## higher                                            ##
+        for test in range(100):
+            stat = randint(1, 200)
 
     def test_compare(self):
         ## Ensure comparison gives points to the trainer   ##
