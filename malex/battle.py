@@ -65,12 +65,8 @@ class Battle:
         """
         c_points, d_points = self.compare_stats()
 
-        if c_points > d_points:
-            self.winner = self.challenger
-            self.loser  = self.defender
-        if c_points < d_points:
-            self.winner = self.defender
-            self.loser  = self.challenger
+        self.winner = self.challenger if c_points > d_points else self.defender
+        self.loser  = self.challenger if c_points < d_points else self.defender
 
     def compare_stats(self):
         """
@@ -98,11 +94,10 @@ class Battle:
         """
             Display the results to the console.
         """
-        print(
-            '{} defeated {}! {} was the mvp'.format(
-                self.winner.get_name(), self.loser.get_name(), self.mvp_name
-            )
-        )
+        phs        = [self.winner.get_name(), self.loser.get_name(), self.mvp_name]
+        result_msg = '{} defeated {}! {} was the mvp'.format(phs[0], phs[1], phs[2])
+
+        print(result_msg)
 
     def get_winner(self):
         """

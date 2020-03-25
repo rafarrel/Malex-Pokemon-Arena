@@ -1,6 +1,7 @@
-from malex.battle import Battle
-from random       import randint
-from math         import fabs
+from malex.battle  import Battle
+from random        import randint
+from math          import fabs
+from unittest.mock import Mock
 import unittest
 
 
@@ -21,12 +22,12 @@ class TestBattle(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         c_phys = randint(1, 200)
-        c_att = randint(1, 200)
-        c_dfn = randint(1, 200)
+        c_att  = randint(1, 200)
+        c_dfn  = randint(1, 200)
 
         d_phys = randint(1, 200)
-        d_att = randint(1, 200)
-        d_dfn = randint(1, 200)
+        d_att  = randint(1, 200)
+        d_dfn  = randint(1, 200)
 
         cls.challenger = TestingTrainer(c_phys, c_att, c_dfn)
         cls.defender   = TestingTrainer(d_phys, d_att, d_dfn)
@@ -45,8 +46,8 @@ class TestBattle(unittest.TestCase):
 
         c_chng_count = 0
         d_chng_count = 0
-        c_old_stats   = self.challenger.team_stat_groups
-        d_old_stats   = self.defender.team_stat_groups
+        c_old_stats  = self.challenger.team_stat_groups
+        d_old_stats  = self.defender.team_stat_groups
 
         self.battle.add_variability()
         c_new_stats = self.battle.c_stats
@@ -66,7 +67,7 @@ class TestBattle(unittest.TestCase):
         print('New d:', d_new_stats)
         print()
 
-    def test_var_generation(self):
+    def test_genrate_variability(self):
         ## Ensure variability is generated so that the       ##
         ## new stat is outside desired quartiles +- (old     ##
         ## stat divided by four) a minimum of 5% and         ##
@@ -109,21 +110,61 @@ class TestBattle(unittest.TestCase):
             c_diff_greater_freq /= num_tests
             d_diff_greater_freq /= num_tests
 
+            self.assertTrue(FREQ_L_BOUND <= c_diff_greater_freq <= FREQ_U_BOUND)
+            self.assertTrue(FREQ_L_BOUND <= d_diff_greater_freq <= FREQ_U_BOUND)
+
             print(key)
             print('cdgf:', c_diff_greater_freq)
             print('ddgf:', d_diff_greater_freq)
             print()
 
-            self.assertTrue(FREQ_L_BOUND <= c_diff_greater_freq <= FREQ_U_BOUND)
-            self.assertTrue(FREQ_L_BOUND <= d_diff_greater_freq <= FREQ_U_BOUND)
-
+    def test_determine_winner(self):
+        ## Ensure winner and loser reference the correct   ##
+        ## trainers based on which has higher points.      ##
         print('--------------------------------------------------')
+        print('Determine Winner:')
+        print()
 
-    def test_compare(self):
+        battle_mock = Battle
+
+        # Challenger is winner
+        battle_mock.compare_stats = Mock(return_value=(2, 0))
+        self.battle.determine_winner()
+        self.assertIs(self.battle.challenger, self.battle.winner)
+        self.assertIs(self.battle.defender, self.battle.loser)
+
+        print('Challenger wins:')
+        print(self.battle.challenger)
+        print(self.battle.winner)
+        print()
+
+        # Defender is winner
+        battle_mock.compare_stats = Mock(return_value=(0, 2))
+        self.battle.determine_winner()
+        self.assertIs(self.battle.defender, self.battle.winner)
+        self.assertIs(self.battle.challenger, self.battle.loser)
+
+        print('Defender wins:')
+        print(self.battle.defender)
+        print(self.battle.winner)
+        print()
+
+    def test_compare_stats(self):
         ## Ensure comparison gives points to the trainer   ##
         ## with the higher result for each stat group and  ##
         ## the trainer with the most points is the winner  ##
-        pass
+        NUM_TESTS = 100
+
+        for test in range(NUM_TESTS):
+            self.battle.c_stats = {0: test+1, 1: test+1, 2: test}
+            self.battle.d_stats = {0: test,   1: test,   2: test+1}
+
+            c_exp_points = 2
+            d_exp_points = 1
+
+            c_points, d_points = self.battle.compare_stats()
+            self.assertEqual(c_exp_points, c_points)
+            self.assertEqual(d_exp_points, d_points)
 
     def test_mvp(self):
         ## Ensure mvp gets the mvp calculation result from ##
