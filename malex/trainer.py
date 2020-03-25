@@ -2,8 +2,6 @@
 # and team_stat_groups
 from malex import pokemon
 import random
-
-
 class Trainer:
     def __init__(self, name, skill_level, pokemon):
         self.MAX_SKILL = 10
@@ -30,6 +28,7 @@ class Trainer:
         for key in self.team_stat_group:
             self.team_stat_group[key] /= (self.MAX_SKILL - self.skill_level + 1)
 
+    @property
     def get_calculate_team_mvp(self):
         max_num = 0
         index   = 0
