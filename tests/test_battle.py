@@ -29,32 +29,62 @@ class TestBattle(unittest.TestCase):
         d_dfn = randint(1, 200)
 
         cls.challenger = TestingTrainer(c_phys, c_att, c_dfn)
-        cls.defender = TestingTrainer(d_phys, d_att, d_dfn)
-        cls.battle = Battle(cls.challenger, cls.defender)
+        cls.defender   = TestingTrainer(d_phys, d_att, d_dfn)
+
+    def setUp(self):
+        self.battle = Battle(self.challenger, self.defender)
 
     #------------------------------------------------------------
 
-    def test_simulation(self):
-        ## Ensure simulation favors stronger trainer to win  ##
-        ## between 60%-70% of the time                       ##
-        pass
+    def test_add_variability(self):
+        ## Ensure at least one stat is changed after         ##
+        ## variability is generated for each trainer.        ##
+        print('--------------------------------------------------')
+        print('Add Var:')
+        print()
+
+        c_chng_count = 0
+        d_chng_count = 0
+        c_old_stats   = self.challenger.team_stat_groups
+        d_old_stats   = self.defender.team_stat_groups
+
+        self.battle.add_variability()
+        c_new_stats = self.battle.c_stats
+        d_new_stats = self.battle.d_stats
+
+        for key in self.battle.c_stats:
+            c_chng_count += 1 if c_old_stats[key] != c_new_stats[key] else 0
+            d_chng_count += 1 if d_old_stats[key] != d_new_stats[key] else 0
+
+        self.assertFalse(c_chng_count == 0)
+        self.assertFalse(d_chng_count == 0)
+
+        print('Old c:', c_old_stats)
+        print('New c:', c_new_stats)
+        print()
+        print('Old d:', d_old_stats)
+        print('New d:', d_new_stats)
+        print()
 
     def test_var_generation(self):
         ## Ensure variability is generated so that the       ##
         ## new stat is outside desired quartiles +- (old     ##
         ## stat divided by four) a minimum of 5% and         ##
-        # maximum of 10% of all generations.                 ##
+        ## maximum of 10% of all generations.                ##
+        print('--------------------------------------------------')
+        print('Var Generation:')
+        print()
+
         FREQ_L_BOUND = 0.05
         FREQ_U_BOUND = 0.1
         SD_DIV       = 4
         NUM_TESTS    = 10000
 
-        print('--------------------------------------------------')
-        print('Var Generation:\n')
         for key in self.challenger.team_stat_groups:
             c_orig = self.challenger.team_stat_groups[key]
             d_orig = self.defender.team_stat_groups[key]
 
+            # Calculate expected differences
             c_exp_diff = c_orig / SD_DIV
             d_exp_diff = d_orig / SD_DIV
 
@@ -66,22 +96,24 @@ class TestBattle(unittest.TestCase):
                 c_obs = self.battle.generate_variability(self.challenger.team_stat_groups, key)
                 d_obs = self.battle.generate_variability(self.defender.team_stat_groups, key)
 
+                # Calculate differences
                 c_diff = fabs(c_orig - c_obs)
                 d_diff = fabs(d_orig - d_obs)
 
-                if c_diff > c_exp_diff:
-                    c_diff_greater_freq += 1
-                if d_diff > d_exp_diff:
-                    d_diff_greater_freq += 1
-
+                # Add to frequencies for differences greater than expected difference
+                c_diff_greater_freq += 1 if c_diff > c_exp_diff else 0
+                d_diff_greater_freq += 1 if d_diff > d_exp_diff else 0
                 num_tests += 1
 
+            # Calculate frequencies
             c_diff_greater_freq /= num_tests
             d_diff_greater_freq /= num_tests
+
             print(key)
             print('cdgf:', c_diff_greater_freq)
             print('ddgf:', d_diff_greater_freq)
             print()
+
             self.assertTrue(FREQ_L_BOUND <= c_diff_greater_freq <= FREQ_U_BOUND)
             self.assertTrue(FREQ_L_BOUND <= d_diff_greater_freq <= FREQ_U_BOUND)
 
