@@ -3,6 +3,8 @@ from random        import randint
 from math          import fabs
 from unittest.mock import Mock
 import unittest
+import sys
+import io
 
 
 class TestingTrainer:
@@ -166,15 +168,54 @@ class TestBattle(unittest.TestCase):
             self.assertEqual(c_exp_points, c_points)
             self.assertEqual(d_exp_points, d_points)
 
-    def test_mvp(self):
+    def test_determine_mvp(self):
         ## Ensure mvp gets the mvp calculation result from ##
         ## the trainer                                     ##
-        pass
+        trainer_mock = TestingTrainer
+        trainer_mock.calculate_team_mvp = Mock()
+        self.battle.winner = trainer_mock
 
-    def test_display(self):
+        self.battle.determine_mvp()
+        self.assertTrue(trainer_mock.calculate_team_mvp.called)
+
+    def test_display_results(self):
         ## Ensure displays the winner of the battle and    ##
         ## their most valuable pokemon                     ##
-        pass
+        print('--------------------------------------------------')
+        print('Display Results:')
+        print()
+      
+        exp_display = 'JHibby defeated Amazon! Agile was the mvp.'
+
+        challenger_mock = Mock(TestingTrainer)
+        defender_mock   = Mock(TestingTrainer)
+        challenger_mock.get_name = Mock(return_value='JHibby')
+        defender_mock.get_name   = Mock(return_value='Amazon')
+
+        self.battle.winner   = challenger_mock
+        self.battle.loser    = defender_mock
+        self.battle.mvp_name = 'Agile'
+
+        # Direct console output for testing
+        output = io.StringIO()
+        sys.stdout = output
+
+        self.battle.display_results()
+        self.assertEqual(exp_display, output.getvalue().rstrip('\n'))
+
+        # Reset console output
+        sys.stdout = sys.__stdout__
+        print(output.getvalue())
+
+    def test_get_winner(self):
+        ## Ensure displays the winner of the battle and    ##
+        ## their most valuable pokemon                     ##
+        trainer_mock          = TestingTrainer
+        trainer_mock.get_name = Mock()
+        self.battle.winner    = trainer_mock
+
+        self.battle.get_winner()
+        self.assertTrue(trainer_mock.get_name.called)
 
     #------------------------------------------------------------
 

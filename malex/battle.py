@@ -95,7 +95,7 @@ class Battle:
             Display the results to the console.
         """
         phs        = [self.winner.get_name(), self.loser.get_name(), self.mvp_name]
-        result_msg = '{} defeated {}! {} was the mvp'.format(phs[0], phs[1], phs[2])
+        result_msg = '{} defeated {}! {} was the mvp.'.format(phs[0], phs[1], phs[2])
 
         print(result_msg)
 
