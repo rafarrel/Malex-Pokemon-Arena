@@ -4,7 +4,6 @@
 
 """
 import sys
-from queue        import Queue
 from malex.battle import Battle
 
 
@@ -12,7 +11,6 @@ class Arena:
 
     def __init__(self, name):
         self.MAX_DEFENDERS    = 6
-        self.INFINITE         = 0
         self.name             = name
         self.challenger       = None
         self.defenders        = []
@@ -56,6 +54,7 @@ class Arena:
         winner = battle.battle()
 
         if winner != self.challenger.get_name():
+            self.arena_conquered = False
             self.exit_arena()
 
     #-------------------------------------------------------------------------
@@ -72,9 +71,10 @@ class Arena:
             Display if challenger conquered or was defeated by the
             arena.
         """
-        print('{} {} the arena.'.format(
-            self.challenger.get_name(), self.determine_results())
-        )
+        phs        = [self.challenger.get_name(), self.determine_results(), self.name]
+        result_msg = '{} {} {}.'.format(phs[0], phs[1], phs[2])
+
+        print(result_msg)
 
     def determine_results(self):
         """
