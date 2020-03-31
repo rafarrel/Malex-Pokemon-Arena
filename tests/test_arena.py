@@ -63,7 +63,7 @@ class TestArena(unittest.TestCase):
 
         self.arena.battle_defender(self.jhibby)
         self.assertFalse(self.arena.arena_conquered)
-        self.assertTrue(self.arena.exit_arena.called)
+        self.assertTrue (self.arena.exit_arena.called)
 
     def test_exit_arena(self):
         ## Ensure sys.exit and display_results are called    ##
@@ -74,6 +74,10 @@ class TestArena(unittest.TestCase):
 
     def test_display_results(self):
         ## Ensure correct message is displayed.              ##
+        print('--------------------------------------------------')
+        print('Display Results:')
+        print()
+
         output      = io.StringIO()
         sys.stdout  = output
         exp_display = 'Mario test The Pwn Zone.'
@@ -84,20 +88,21 @@ class TestArena(unittest.TestCase):
         self.arena.display_results()
         self.assertEqual(exp_display, output.getvalue().rstrip('\n'))
 
+        sys.stdout = sys.__stdout__
+        print(output.getvalue())
+
     def test_determine_results(self):
         ## Ensure correct result is returned                 ##
+        NUM_OPTIONS   = 2
+        result_ops    = ['conquered', 'did not conquer']
+        conquered_ops = [True, False]
 
-        # Conquered
-        self.arena.arena_conquered = True
-        result     = self.arena.determine_results()
-        exp_result = 'conquered'
-        self.assertEqual(result, exp_result)
+        for option in range(NUM_OPTIONS):
+            self.arena.arena_conquered = conquered_ops[option]
+            result                     = self.arena.determine_results()
 
-        # Did not conquer
-        self.arena.arena_conquered = False
-        result     = self.arena.determine_results()
-        exp_result = 'did not conquer'
-        self.assertEqual(result, exp_result)
+            exp_result = result_ops[option]
+            self.assertEqual(result, exp_result)
 
 
 if __name__ == '__main__':

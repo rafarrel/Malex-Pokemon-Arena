@@ -5,7 +5,7 @@
 """
 from malex.pokemon import Pokemon
 from malex.trainer import Trainer
-from malex.arena import Arena
+from malex.arena   import Arena
 
 
 class Simulation:
@@ -16,12 +16,12 @@ class Simulation:
     def run(self):
 
         # Setup pokemon
-        loud_meowth       = Pokemon('Loudmeowth', 42, 80, 60, 110, 95, 82, 115)
-        peakatchu         = Pokemon('Peakatchu', 72, 105, 110, 140, 160, 90, 120)
-        electrode_js      = Pokemon('ElectrodeJS', 56, 155, 97, 124, 105, 110, 85)
-        drago_fortnite    = Pokemon('DragoFortnite', 75, 110, 120, 132, 145, 105, 110)
+        peakatchu         = Pokemon('Peakatchu'       ,  72, 105, 110, 140, 160,  90, 120)
+        loud_meowth       = Pokemon('Loudmeowth'      ,  42,  80,  60, 110,  95,  82, 115)
+        staryu_wars       = Pokemon('StaryuWars'      , 100, 185, 160, 200, 200, 210, 190)
+        electrode_js      = Pokemon('ElectrodeJS'     ,  56, 155,  97, 124, 105, 110,  85)
+        drago_fortnite    = Pokemon('DragoFortnite'   ,  75, 110, 120, 132, 145, 105, 110)
         zaptos_intolerant = Pokemon('ZaptosIntolerant', 100, 200, 210, 240, 225, 180, 195)
-        staryu_wars       = Pokemon('StaryuWars', 100, 185, 160, 200, 200, 210, 190)
 
         # Setup trainers
         ash_ketchup = Trainer('Ash Ketchup', 10)

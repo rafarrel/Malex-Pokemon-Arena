@@ -1,4 +1,5 @@
 from malex.battle  import Battle
+from malex.trainer import Trainer
 from random        import randint
 from math          import fabs
 from unittest.mock import Mock
@@ -35,7 +36,10 @@ class TestBattle(unittest.TestCase):
         cls.defender   = TestingTrainer(d_phys, d_att, d_dfn)
 
     def setUp(self):
-        self.battle = Battle(self.challenger, self.defender)
+        self.challenger_mock = Mock(Trainer)
+        self.defender_mock   = Mock(Trainer)
+        self.battle_mock     = Battle
+        self.battle          = Battle(self.challenger, self.defender)
 
     #------------------------------------------------------------
 
@@ -69,7 +73,7 @@ class TestBattle(unittest.TestCase):
         print('New d:', d_new_stats)
         print()
 
-    def test_genrate_variability(self):
+    def test_generate_variability(self):
         ## Ensure variability is generated so that the       ##
         ## new stat is outside desired quartiles +- (old     ##
         ## stat divided by four) a minimum of 5% and         ##
@@ -127,10 +131,8 @@ class TestBattle(unittest.TestCase):
         print('Determine Winner:')
         print()
 
-        battle_mock = Battle
-
         # Challenger is winner
-        battle_mock.compare_stats = Mock(return_value=(2, 0))
+        self.battle_mock.compare_stats = Mock(return_value=(2, 0))
         self.battle.determine_winner()
         self.assertIs(self.battle.challenger, self.battle.winner)
         self.assertIs(self.battle.defender, self.battle.loser)
@@ -141,7 +143,7 @@ class TestBattle(unittest.TestCase):
         print()
 
         # Defender is winner
-        battle_mock.compare_stats = Mock(return_value=(0, 2))
+        self.battle_mock.compare_stats = Mock(return_value=(0, 2))
         self.battle.determine_winner()
         self.assertIs(self.battle.defender, self.battle.winner)
         self.assertIs(self.battle.challenger, self.battle.loser)
@@ -171,12 +173,11 @@ class TestBattle(unittest.TestCase):
     def test_determine_mvp(self):
         ## Ensure mvp gets the mvp calculation result from ##
         ## the trainer                                     ##
-        trainer_mock = TestingTrainer
-        trainer_mock.calculate_team_mvp = Mock()
-        self.battle.winner = trainer_mock
+        self.challenger_mock.calculate_team_mvp = Mock()
+        self.battle.winner                      = self.challenger_mock
 
         self.battle.determine_mvp()
-        self.assertTrue(trainer_mock.calculate_team_mvp.called)
+        self.assertTrue(self.challenger_mock.calculate_team_mvp.called)
 
     def test_display_results(self):
         ## Ensure displays the winner of the battle and    ##
@@ -185,37 +186,31 @@ class TestBattle(unittest.TestCase):
         print('Display Results:')
         print()
       
+        output      = io.StringIO()
+        sys.stdout  = output
         exp_display = 'JHibby defeated Amazon! Agile was the mvp.'
 
-        challenger_mock = Mock(TestingTrainer)
-        defender_mock   = Mock(TestingTrainer)
-        challenger_mock.get_name = Mock(return_value='JHibby')
-        defender_mock.get_name   = Mock(return_value='Amazon')
+        self.challenger_mock.get_name = Mock(return_value='JHibby')
+        self.defender_mock.get_name   = Mock(return_value='Amazon')
 
-        self.battle.winner   = challenger_mock
-        self.battle.loser    = defender_mock
+        self.battle.winner   = self.challenger_mock
+        self.battle.loser    = self.defender_mock
         self.battle.mvp_name = 'Agile'
-
-        # Direct console output for testing
-        output = io.StringIO()
-        sys.stdout = output
 
         self.battle.display_results()
         self.assertEqual(exp_display, output.getvalue().rstrip('\n'))
 
-        # Reset console output
         sys.stdout = sys.__stdout__
         print(output.getvalue())
 
     def test_get_winner(self):
         ## Ensure displays the winner of the battle and    ##
         ## their most valuable pokemon                     ##
-        trainer_mock          = TestingTrainer
-        trainer_mock.get_name = Mock()
-        self.battle.winner    = trainer_mock
+        self.challenger_mock.get_name = Mock()
+        self.battle.winner            = self.challenger_mock
 
         self.battle.get_winner()
-        self.assertTrue(trainer_mock.get_name.called)
+        self.assertTrue(self.challenger_mock.get_name.called)
 
     #------------------------------------------------------------
 
