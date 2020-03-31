@@ -10,8 +10,8 @@ from malex.arena   import Arena
 
 class Simulation:
 
-    def __init__(self):
-        self.arena = Arena('The Pwn Zone')
+    def __init__(self, name):
+        self.arena = Arena(name)
 
     def run(self):
 
