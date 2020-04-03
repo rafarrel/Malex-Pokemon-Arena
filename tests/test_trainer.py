@@ -127,12 +127,5 @@ class TestTrainer(unittest.TestCase):
                 last_mvp = mvp
         self.assertTrue(change)
 
-
-
-
-
-
-
-
 if __name__ == '__main__':
     unittest.main()
