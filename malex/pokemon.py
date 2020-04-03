@@ -1,4 +1,4 @@
-# this program will initialize the pokemon class witg MAX_LEVEL , NAME , LEVEL STAT_GROUPS AND TOTAL_STATS
+# this program will initialize the pokemon class witH MAX_LEVEL , NAME , LEVEL STAT_GROUPS AND TOTAL_STATS
 class Pokemon:
     # init method to set the objects attributes
     def __init__(self, name, level, hp, sp_defense, sp_attack, speed, attack, defense):
@@ -14,6 +14,7 @@ class Pokemon:
         self.level       = level
         self.stat_groups = {}
         self.total_stat  = None
+        self.setup()
 
     def setup(self):
         self.calculate_stat_groups()
@@ -30,9 +31,9 @@ class Pokemon:
             self.stat_groups[key] *= (self.level / self.MAX_LEVEL)
 
     def calculate_total_stat(self):
-        total_stat = 0
+        self.total_stat = 0
         for key in self.stat_groups:
-            total_stat += self.stat_groups[key]
+            self.total_stat += self.stat_groups[key]
 
     # getters
     def get_name(self):
