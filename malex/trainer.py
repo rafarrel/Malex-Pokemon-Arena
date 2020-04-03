@@ -33,7 +33,7 @@ class Trainer:
         index   = 0
         for x in self.team:
             r1 = random.randint(1, 100)
-            new_total_stat = self.team.get_total_stat()*(r1/self.MVP_VARIABILITY)
+            new_total_stat = x.team.get_total_stat()*(r1/self.MVP_VARIABILITY)
             if max_num < new_total_stat:
                 max_num = new_total_stat
                 index += 1
