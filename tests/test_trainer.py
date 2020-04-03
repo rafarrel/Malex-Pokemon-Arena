@@ -119,9 +119,9 @@ class TestTrainer(unittest.TestCase):
                               char_sp_attack, char_speed, char_attack, char_defense)
         trainer.team.append(pokemon_two)
         change = False
-        last_mvp = trainer.get_calculate_team_mvp().get_name()
+        last_mvp = trainer.calculate_team_mvp()
         for test in range(100):
-            mvp = trainer.get_calculate_team_mvp().get_name()
+            mvp = trainer.calculate_team_mvp()
             if last_mvp != mvp:
                 change = True
                 last_mvp = mvp
