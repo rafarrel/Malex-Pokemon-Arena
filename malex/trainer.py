@@ -10,9 +10,7 @@ class Trainer:
         self.name = name
         self.skill_level = skill_level
         self.team = []
-        self.team_stat_group = {}
-
-
+        self.team_stat_group = {'Physical': 0, 'Attack': 0, 'Defense': 0}
 
     def add_pokemon(self):
         if len(self.team) < self.MAX_POKEMON:
@@ -22,9 +20,6 @@ class Trainer:
 
     def calculate_team_stat_groups(self):
         for x in self.team:
-            self.team_stat_group['Physical'] = 0
-            self.team_stat_group['Attack'] = 0
-            self.team_stat_group['Defense'] = 0
             for key in x.stat_groups:
                 self.team_stat_group[key] += x.stat_groups[key]
 
@@ -32,7 +27,6 @@ class Trainer:
         for key in self.team_stat_group:
             self.team_stat_group[key] /= (self.MAX_SKILL - self.skill_level + 1)
 
-    @property
     def get_calculate_team_mvp(self):
         max_num = 0
         index   = 0

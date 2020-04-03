@@ -92,6 +92,30 @@ class TestTrainer(unittest.TestCase):
         trainer = Trainer(name, skill_level)
         self.assertTrue(trainer.get_skill_level(), skill_level)
 
+    def test_get_pokemon(self):
+        name = "kancor"
+        skill_level = 9
+        trainer = Trainer(name, skill_level)
+        char_name = "Charizard"
+        char_hp = 55
+        char_level = 15
+        char_attack = 65
+        char_sp_attack = 88
+        char_speed = 30
+        char_defense = 120
+        char_sp_defense = 75
+        pokemon_one = Pokemon(char_name, char_level, char_hp, char_sp_defense,
+                              char_sp_attack, char_speed, char_attack, char_defense)
+        trainer.team.append(pokemon_one)
+        object = 0x03936A00
+        if object == 0x03936A00:
+            print(trainer.get_pokemon())
+
+
+
+
+
+
 
 if __name__ == '__main__':
     unittest.main()
