@@ -27,7 +27,7 @@ class Trainer:
         for key in self.team_stat_group:
             self.team_stat_group[key] /= (self.MAX_SKILL - self.skill_level + 1)
 
-    def get_calculate_team_mvp(self):
+    def calculate_team_mvp(self):
         max_num = 0
         index   = 0
         for x in self.team:
@@ -36,7 +36,7 @@ class Trainer:
             if max_num < new_total_stat:
                 max_num = new_total_stat
                 index = self.team.index(x)
-        return self.team[index]
+        return self.team[index].get_name()
 
     def get_name(self):
         return self.name
@@ -47,5 +47,5 @@ class Trainer:
     def get_pokemon(self):
         return self.team
 
-    def get_team_stat_group(self):
+    def get_team_stat_groups(self):
         return self.team_stat_group
