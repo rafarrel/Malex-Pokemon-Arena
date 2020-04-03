@@ -12,9 +12,9 @@ class Trainer:
         self.team = []
         self.team_stat_group = {'Physical': 0, 'Attack': 0, 'Defense': 0}
 
-    def add_pokemon(self):
+    def add_pokemon(self, pokemon):
         if len(self.team) < self.MAX_POKEMON:
-            self.team.append(Pokemon)
+            self.team.append(pokemon)
         else:
             print("pokemon can't be added.")
 
@@ -27,16 +27,15 @@ class Trainer:
         for key in self.team_stat_group:
             self.team_stat_group[key] /= (self.MAX_SKILL - self.skill_level + 1)
 
-    @property
     def get_calculate_team_mvp(self):
         max_num = 0
         index   = 0
         for x in self.team:
             r1 = random.randint(1, 100)
-            new_total_stat = x.team.get_total_stat()*(r1/self.MVP_VARIABILITY)
+            new_total_stat = x.get_total_stat()*(r1/self.MVP_VARIABILITY)
             if max_num < new_total_stat:
                 max_num = new_total_stat
-                index += 1
+                index = self.team.index(x)
         return self.team[index]
 
     def get_name(self):
