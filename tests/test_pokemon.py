@@ -82,5 +82,7 @@ class TestPokemon(unittest.TestCase):
         sp_defense = 110
         pokemon = Pokemon(name, level, hp, sp_defense, sp_attack, speed, attack, defense)
         self.assertEqual(pokemon.get_level(), level)
+
+
 if __name__ == '__main__':
     unittest.main()

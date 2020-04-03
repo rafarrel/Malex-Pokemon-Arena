@@ -60,7 +60,7 @@ class TestTrainer(unittest.TestCase):
         pokemon_one = Pokemon(char_name, char_level, char_hp, char_sp_defense,
                               char_sp_attack, char_speed, char_attack, char_defense)
         pokemon_one.calculate_stat_groups()
-        print(pokemon_one.stat_groups['Physical'])
+        # print(pokemon_one.stat_groups['Physical'])
         trainer.team.append(pokemon_one)
         # create pokemon two
         squ_name = "Squirtle"
@@ -74,7 +74,7 @@ class TestTrainer(unittest.TestCase):
         pokemon_two = Pokemon(squ_name, squ_level, squ_hp, squ_sp_defense,
                               squ_sp_attack, squ_speed, squ_attack, squ_defense)
         pokemon_two.calculate_stat_groups()
-        print(pokemon_two.stat_groups['Physical'])
+        # print(pokemon_two.stat_groups['Physical'])
         trainer.team.append(pokemon_two)
         trainer.calculate_team_stat_groups()
         expected_value = 65
