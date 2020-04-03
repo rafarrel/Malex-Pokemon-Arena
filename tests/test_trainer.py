@@ -32,9 +32,17 @@ class TestTrainer(unittest.TestCase):
         MAX_POKEMON = 6
         trainer = Trainer(name, skill_level)
         trainer.team.append(Pokemon)
-        # test to see if a pokemon can be added if less than MAX_POKEMON
+        trainer.team.append(Pokemon)
+        trainer.team.append(Pokemon)
+        trainer.team.append(Pokemon)
+        trainer.team.append(Pokemon)
+        trainer.team.append(Pokemon)
+        trainer.team.append(Pokemon)
+        trainer.team.append(Pokemon)
+        trainer.team.append(Pokemon)
+        # test to see if a pokemon can be added if max than MAX_POKEMON
         if len(trainer.team) >= MAX_POKEMON:
-            self.assertTrue(trainer.add_pokemon(), MAX_POKEMON)
+            self.assertFalse(trainer.add_pokemon(), MAX_POKEMON)
 
     def test_calculate_team_stat_groups(self):
         name = "Mario"
@@ -52,14 +60,11 @@ class TestTrainer(unittest.TestCase):
         pokemon_one = Pokemon(char_name, char_level, char_hp, char_sp_defense,
                               char_sp_attack, char_speed, char_attack, char_defense)
         pokemon_one.calculate_stat_groups()
-        pokemon_one.calculate_total_stat()
+        print(pokemon_one.stat_groups['Physical'])
         trainer.team.append(pokemon_one)
-
-
-
         # create pokemon two
         squ_name = "Squirtle"
-        squ_hp = 22
+        squ_hp = 30
         squ_level = 10
         squ_attack = 25
         squ_sp_attack = 55
@@ -69,8 +74,11 @@ class TestTrainer(unittest.TestCase):
         pokemon_two = Pokemon(squ_name, squ_level, squ_hp, squ_sp_defense,
                               squ_sp_attack, squ_speed, squ_attack, squ_defense)
         pokemon_two.calculate_stat_groups()
-        pokemon_two.calculate_total_stat()
+        print(pokemon_two.stat_groups['Physical'])
         trainer.team.append(pokemon_two)
+        trainer.calculate_team_stat_groups()
+        expected_value = 65
+        self.assertEqual(trainer.team_stat_group['Physical'], expected_value)
 
     def test_get_name(self):
         name = "Lucid"

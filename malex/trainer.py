@@ -13,16 +13,20 @@ class Trainer:
         self.team_stat_group = {}
 
 
+
     def add_pokemon(self):
-        if len(self.team) <= self.MAX_POKEMON:
+        if len(self.team) < self.MAX_POKEMON:
             self.team.append(Pokemon)
         else:
             print("pokemon can't be added.")
 
     def calculate_team_stat_groups(self):
         for x in self.team:
+            self.team_stat_group['Physical'] = 0
+            self.team_stat_group['Attack'] = 0
+            self.team_stat_group['Defense'] = 0
             for key in x.stat_groups:
-                self.team_stat_group[key] += self.team.stat_groups[key]
+                self.team_stat_group[key] += x.stat_groups[key]
 
     def stat_group_divisor(self):
         for key in self.team_stat_group:
