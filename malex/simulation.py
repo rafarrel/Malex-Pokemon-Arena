@@ -46,3 +46,6 @@ class Simulation:
 
         # Run arena
         self.arena.run_arena()
+
+        # Exit arena
+        self.arena.exit_arena()
