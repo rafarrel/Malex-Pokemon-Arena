@@ -1,3 +1,4 @@
+
 import unittest
 from malex.trainer import Trainer
 from unittest import TestCase
@@ -110,11 +111,6 @@ class TestTrainer(unittest.TestCase):
         object = 0x03936A00
         if object == 0x03936A00:
             print(trainer.get_pokemon())
-
-
-
-
-
 
 
 if __name__ == '__main__':

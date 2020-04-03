@@ -1,7 +1,7 @@
-# create the trainer class with attributes of max_skill, mvp_variability , max_pokemon , name , skill_level pokemon ,
-# and team_stat_groups
-from malex.pokemon import Pokemon
+from malex import pokemon
 import random
+
+
 class Trainer:
     def __init__(self, name, skill_level):
         self.MAX_SKILL = 10
@@ -14,7 +14,7 @@ class Trainer:
 
     def add_pokemon(self):
         if len(self.team) < self.MAX_POKEMON:
-            self.team.append(Pokemon)
+            self.team.append(pokemon)
         else:
             print("pokemon can't be added.")
 
@@ -27,12 +27,13 @@ class Trainer:
         for key in self.team_stat_group:
             self.team_stat_group[key] /= (self.MAX_SKILL - self.skill_level + 1)
 
+    @property
     def get_calculate_team_mvp(self):
         max_num = 0
-        index   = 0
+        index = 0
         for x in self.team:
             r1 = random.randint(1, 100)
-            new_total_stat = self.team.get_total_stat()*(r1/self.MVP_VARIABILITY)
+            new_total_stat = self.team.get_total_stat() * (r1 / self.MVP_VARIABILITY)
             if max_num < new_total_stat:
                 max_num = new_total_stat
                 index += 1
@@ -45,7 +46,7 @@ class Trainer:
         return self.skill_level
 
     def get_pokemon(self):
-        return self.team
+        return self.team_stat_group
 
     def get_team_stat_group(self):
         return self.team_stat_group

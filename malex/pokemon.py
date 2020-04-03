@@ -1,20 +1,18 @@
-# this program will initialize the pokemon class witH MAX_LEVEL , NAME , LEVEL STAT_GROUPS AND TOTAL_STATS
 class Pokemon:
     # init method to set the objects attributes
     def __init__(self, name, level, hp, sp_defense, sp_attack, speed, attack, defense):
-        self.MAX_LEVEL   = 100
+        self.MAX_LEVEL = 100
         self.GROUP_TOTAL = 2
-        self.hp          = hp
-        self.sp_defense  = sp_defense
-        self.defense     = defense
-        self.sp_attack   = sp_attack
-        self.speed       = speed
-        self.attack      = attack
-        self.name        = name
-        self.level       = level
+        self.hp = hp
+        self.sp_defense = sp_defense
+        self.defense = defense
+        self.sp_attack = sp_attack
+        self.speed = speed
+        self.attack = attack
+        self.name = name
+        self.level = level
         self.stat_groups = {}
-        self.total_stat  = None
-        self.setup()
+        self.total_stat = None
 
     def setup(self):
         self.calculate_stat_groups()
@@ -23,8 +21,8 @@ class Pokemon:
 
     def calculate_stat_groups(self):
         self.stat_groups['Physical'] = (self.hp + self.speed) / self.GROUP_TOTAL
-        self.stat_groups['Attack']   = (self.attack + self.sp_attack) / self.GROUP_TOTAL
-        self.stat_groups['Defense']  = (self.defense + self.sp_defense) / self.GROUP_TOTAL
+        self.stat_groups['Attack'] = (self.attack + self.sp_attack) / self.GROUP_TOTAL
+        self.stat_groups['Defense'] = (self.defense + self.sp_defense) / self.GROUP_TOTAL
 
     def stat_group_multiplier(self):
         for key in self.stat_groups:
