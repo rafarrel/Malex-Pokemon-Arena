@@ -2,6 +2,7 @@
 
     The Battle class runs the battle simulations for the arena.
 
+    @author Alex Farrell
 """
 from copy   import deepcopy
 from math   import fabs

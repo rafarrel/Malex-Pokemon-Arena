@@ -1,3 +1,8 @@
+"""
+    Run simulation
+
+    @author Alex Farrell 
+"""
 from malex.simulation import Simulation
 
 if __name__ == '__main__':

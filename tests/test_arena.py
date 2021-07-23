@@ -1,3 +1,8 @@
+"""
+    Arena Tests
+
+    @author Alex Farrell
+"""
 from malex.arena   import Arena
 from malex.battle  import Battle
 from malex.trainer import Trainer

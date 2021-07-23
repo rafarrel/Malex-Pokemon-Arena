@@ -2,6 +2,7 @@
 
     The arena class runs the arena.
 
+    @author Alex Farrell
 """
 import sys
 from malex.battle import Battle

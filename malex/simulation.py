@@ -2,6 +2,7 @@
 
     Simulation for the arena.
 
+    @author Alex Farrell
 """
 from malex.pokemon import Pokemon
 from malex.trainer import Trainer

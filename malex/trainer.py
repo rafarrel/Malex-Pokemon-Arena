@@ -1,5 +1,6 @@
 # create the trainer class with attributes of max_skill, mvp_variability , max_pokemon , name , skill_level pokemon ,
 # and team_stat_groups
+# @author Mario Vega
 from malex.pokemon import Pokemon
 import random
 class Trainer:

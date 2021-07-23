@@ -1,3 +1,8 @@
+"""
+    Battle Tests 
+
+    @author Alex Farrell
+"""
 from malex.battle  import Battle
 from malex.trainer import Trainer
 from random        import randint

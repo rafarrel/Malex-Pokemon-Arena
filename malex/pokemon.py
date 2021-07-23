@@ -1,4 +1,5 @@
 # this program will initialize the pokemon class witH MAX_LEVEL , NAME , LEVEL STAT_GROUPS AND TOTAL_STATS
+# @author Mario Vega
 class Pokemon:
     # init method to set the objects attributes
     def __init__(self, name, level, hp, sp_defense, sp_attack, speed, attack, defense):

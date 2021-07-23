@@ -1,3 +1,5 @@
+# Trainer tests
+# @author Mario Vega
 import unittest
 from malex.trainer import Trainer
 from unittest import TestCase
